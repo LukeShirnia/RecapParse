@@ -188,10 +188,13 @@ def option_ps_r(ps_file, counter):
 
 def print_ps_output(service_list):
 	top_15 = 0
+	print 
 	for x in service_list:
+		service = x[0]
+		size = x[1]
 		top_15 += 1
 		if top_15 <= int(15):
-	 		print "Service: {0:.20}  {1} MB ".format(x[0], x[1])
+	 		print "{0:<30}  {1} MB ".format(service[:30], size)
 	print ""
 
 
@@ -201,16 +204,21 @@ def main():
 	Option pasring
 	'''
 	parser = OptionParser(usage='usage: %prog [option]')
-	resource = ['-p', '--ps']
-	parser.add_option("-p", "--ps",
+	resource = ['--ps']
+	parser.add_option("--ps",
 			dest="file",
 			metavar="FILE",
 			help="Summary of specified process log")
+	parser.add_option("-p", "--process",
+                        dest="file",
+                        metavar="FILE",
+                        help="Find the size of specified process in ps_ log")
 	(options, args) = parser.parse_args()
-	selected_option = sys.argv[1:]
-	selected_option = selected_option[0]
-	if len(sys.argv) == 2: 			# Default options, no added arguments
-		print "Do basic function"	
+	if len(sys.argv) > 1:
+		selected_option = sys.argv[1:]
+		selected_option = selected_option[0]
+	if len(sys.argv) == 1: 			# Default options, no added arguments
+		parser.print_help()
 	elif len(sys.argv) == 3:
 		if selected_option in resource and check_file_exists(options.file):
 			counter = 0 # this is added in case the script will eventually check a whole hour/date range, counters can increase
