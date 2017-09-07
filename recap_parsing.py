@@ -204,7 +204,8 @@ def main():
 	Option pasring
 	'''
 	parser = OptionParser(usage='usage: %prog [option]')
-	resource = ['--ps']
+	ps_ = ['--ps']
+	process_ = ['--p', '--process']
 	parser.add_option("--ps",
 			dest="file",
 			metavar="FILE",
@@ -220,10 +221,16 @@ def main():
 	if len(sys.argv) == 1: 			# Default options, no added arguments
 		parser.print_help()
 	elif len(sys.argv) == 3:
-		if selected_option in resource and check_file_exists(options.file):
+		if selected_option in ps_ and check_file_exists(options.file):
 			counter = 0 # this is added in case the script will eventually check a whole hour/date range, counters can increase
-			resource_log = options.file
-			option_ps_r(resource_log, counter)
+			ps_log = options.file
+			print
+			print ps_log
+			option_ps_r(ps_log, counter)
+		elif selected_option in process_ and check_file_exists(options.file):
+			counter = 0
+			print options.file
+			
 	else:
 	
 		print "Do default"
